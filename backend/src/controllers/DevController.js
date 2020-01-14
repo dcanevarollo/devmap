@@ -5,20 +5,35 @@ const getLocation = require('../utils/getLocation');
 
 module.exports = {
 
+  /**
+   * List all devs.
+   */
   async index(request, response) {
     const devs = await Dev.find();
 
     return response.json(devs);
   },
 
+  /**
+   * Show a single dev info.
+   * 
+   * @param {*} request   : the request params contains the github username of the searched dev.
+   * @param {*} response  : the response will contain the dev info.
+   */
   async show(request, response) {
     const { github_username } = request.params;
 
     const dev = await Dev.findOne({ github_username })
-
+    
     return response.json(dev);
   },
 
+  /**
+   * Save a dev into the database.
+   * 
+   * @param {*} request   : the request body contains the info needed. All others data should be received from GitHub API.
+   * @param {*} response  : if registered, the new dev database info will be returned as a response.
+   */
   async store(request, response) {
     const { github_username, techs, latitude, longitude } = request.body;
 
@@ -53,6 +68,12 @@ module.exports = {
     }
   },
 
+  /**
+   * Update a dev info into the database.
+   * 
+   * @param {*} request   : the request body contains the dev new info and its params contain the dev id.
+   * @param {*} response  : in case of success, the response will contain the dev new info. 
+   */
   async update(request, response) {
     const { id } = request.params;
 
@@ -92,6 +113,12 @@ module.exports = {
     }
   },
 
+  /**
+   * Delete a dev from the database.
+   * 
+   * @param {*} request   : the request params contains the dev id.
+   * @param {*} response  : the response, in case of success, will be only a return message.
+   */
   async destroy(request, response) {
     const { id } = request.params;
 

@@ -7,6 +7,9 @@ module.exports = {
 
   /**
    * Search all devs within 10 km, filters by technologies.
+   * 
+   * @param {*} request   : the request query contains the search info we need.
+   * @param {*} response  : naturally, the response will return the list of devs found.
    */
   async index(request, response) {
     const { latitude, longitude, techs } = request.query;
