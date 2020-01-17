@@ -2,6 +2,7 @@ const axios = require('axios');
 const Dev = require('../models/Dev');
 const parseStringAsArray = require('../utils/parseStringAsArray');
 const getLocation = require('../utils/getLocation');
+const { findConnections, sendMessage } = require('../websocket');
 
 module.exports = {
 
@@ -55,7 +56,14 @@ module.exports = {
         techs: techsArray,
         location
       });
-    
+
+      const sendSocketMessageTo = findConnections(
+        { latitude, longitude },
+        techsArray
+      );
+
+      sendMessage(sendSocketMessageTo, 'newDev', newDev);
+      
       return response.json({
         message: 'New user added successfully!',
         newDev
